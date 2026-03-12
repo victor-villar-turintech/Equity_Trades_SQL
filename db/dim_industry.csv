@@ -1,0 +1,40 @@
+industry_key,industry_name,sector_key
+1,Software,1
+2,Semiconductors,1
+3,IT Services,1
+4,Electronic Equipment,1
+5,Banks,2
+6,Capital Markets,2
+7,Insurance,2
+8,Consumer Finance,2
+9,Biotechnology,3
+10,Pharmaceuticals,3
+11,Healthcare Equipment,3
+12,Managed Care,3
+13,Aerospace & Defense,4
+14,Machinery,4
+15,Transportation,4
+16,Professional Services,4
+17,Oil & Gas Exploration,5
+18,Integrated Energy,5
+19,Equipment & Services,5
+20,Automobiles,6
+21,Hotels & Leisure,6
+22,Specialty Retail,6
+23,Media,6
+24,Food Products,7
+25,Beverages,7
+26,Household Products,7
+27,Food Retail,7
+28,Electric Utilities,8
+29,Gas Utilities,8
+30,Multi-Utilities,8
+31,Chemicals,9
+32,Metals & Mining,9
+33,Construction Materials,9
+34,Telecom Services,10
+35,Entertainment,10
+36,Interactive Media,10
+37,REITs,11
+38,Real Estate Services,11
+39,Real Estate Management,11

@@ -1,0 +1,321 @@
+issuer_key,issuer_name,country_key,industry_key
+1,Harbor Bioscience plc,8,31
+2,East Systems,7,37
+3,Future Systems,10,34
+4,Dynamic Finance,7,18
+5,Falcon Media plc,7,29
+6,Apex Software,10,26
+7,West Logistics plc,3,10
+8,Falcon Industries plc,4,20
+9,Sterling Materials,2,28
+10,Iron Retail,7,8
+11,Crescent Bioscience plc,4,25
+12,Prime Brands,3,11
+13,Orion Systems,4,13
+14,Iron Media,10,21
+15,Nova Air,10,32
+16,Prime Telecom,9,39
+17,Silver Industries,7,12
+18,Dynamic Foods,3,33
+19,Harbor Electric plc,7,28
+20,Harbor Infrastructure plc,5,7
+21,Crystal Resources,1,4
+22,Blue Bioscience,9,3
+23,Quantum Holdings plc,1,5
+24,Nova Health,6,37
+25,Iron Media plc,3,4
+26,Blue Mining,2,11
+27,Summit Finance plc,3,36
+28,Falcon Systems,5,15
+29,Falcon Bioscience,3,31
+30,Global Energy,9,33
+31,East Resources plc,2,33
+32,Liberty Mining,5,8
+33,Summit Mining plc,8,12
+34,Alpha Services,3,10
+35,Alpha Pharma,5,6
+36,Nimbus Health,4,11
+37,Falcon Trust,2,37
+38,Global Brands,7,15
+39,Vector Resources,3,7
+40,Harbor Services,10,32
+41,Vertex Trust plc,9,16
+42,Emerald Networks,6,14
+43,Alpha Devices,5,11
+44,Prime Materials,5,4
+45,Dynamic Materials,2,14
+46,North Telecom plc,4,7
+47,Pioneer Capital,2,19
+48,Cobalt Bioscience,2,1
+49,Global Finance,7,29
+50,Pioneer Logistics,10,22
+51,Nimbus Retail plc,8,34
+52,Cobalt Motors,10,22
+53,East Trust,6,30
+54,Nova Pharma,6,36
+55,Harbor Brands plc,6,32
+56,Nova Networks,7,23
+57,Pioneer Resources plc,2,16
+58,Sterling Retail plc,9,27
+59,Vector Logistics,5,13
+60,Alpha Networks,5,18
+61,Nimbus Industries plc,8,20
+62,West Networks,2,12
+63,Nimbus Finance,2,24
+64,Atlas Industries plc,9,12
+65,Crescent Industries plc,3,23
+66,Blue Air,6,36
+67,Silver Finance,7,36
+68,Crystal Mining,2,17
+69,Pioneer Systems,3,26
+70,Crescent Materials plc,4,37
+71,Dynamic Services,7,15
+72,Cobalt Holdings plc,10,2
+73,Summit Networks plc,10,19
+74,Dynamic Telecom plc,2,8
+75,Emerald Trust plc,8,20
+76,Vector Foods,8,24
+77,Iron Software,3,25
+78,Nova Systems plc,8,17
+79,West Mining plc,8,9
+80,Global Systems,3,11
+81,Alpha Media,1,13
+82,Future Telecom plc,4,26
+83,Golden Retail,10,32
+84,Falcon Industries,7,29
+85,Nova Software,2,3
+86,Iron Resources,10,21
+87,Pioneer Devices plc,10,1
+88,Dynamic Mining plc,4,23
+89,Golden Group plc,3,6
+90,Vector Air plc,8,16
+91,Crystal Energy plc,8,13
+92,Nova Holdings,6,35
+93,Blue Industries plc,6,1
+94,Alpha Electric,6,13
+95,Falcon Devices,5,27
+96,Cobalt Mining,7,39
+97,Crescent Electric plc,4,20
+98,Prime Partners,1,35
+99,Liberty Group plc,3,16
+100,Crystal Networks,6,8
+101,Crescent Energy,6,38
+102,North Bioscience,10,23
+103,Sterling Partners plc,4,19
+104,Nimbus Retail,3,22
+105,Golden Electric,9,22
+106,East Capital,1,8
+107,Summit Electric,6,24
+108,Sterling Infrastructure plc,10,5
+109,Golden Foods plc,5,28
+110,Crystal Trust,9,5
+111,Blue Networks,7,1
+112,Global Capital,1,19
+113,Golden Retail plc,6,24
+114,Crystal Partners,5,18
+115,Dynamic Energy plc,5,19
+116,Vector Technologies,2,35
+117,Nimbus Devices,5,34
+118,Orion Trust,9,18
+119,Vertex Brands plc,5,28
+120,Cobalt Industries,8,39
+121,Orion Networks,8,34
+122,Silver Media,3,34
+123,Vector Pharma,2,14
+124,Future Industries,5,4
+125,Crescent Capital,1,37
+126,Orion Electric,10,30
+127,West Devices,3,11
+128,Harbor Logistics,7,20
+129,Nimbus Holdings,3,9
+130,Silver Services,7,24
+131,Nova Devices,7,11
+132,Cobalt Finance,8,8
+133,Vertex Infrastructure,5,35
+134,Crescent Finance plc,8,38
+135,West Air plc,9,7
+136,Global Services plc,6,2
+137,Vertex Finance,4,24
+138,Crystal Finance plc,1,30
+139,Apex Pharma,5,23
+140,Quantum Systems,1,1
+141,Crescent Foods,10,3
+142,Prime Capital,2,14
+143,West Software,4,27
+144,Blue Media,9,32
+145,Emerald Motors plc,8,1
+146,Iron Trust plc,6,12
+147,East Mining,2,2
+148,Dynamic Health,9,27
+149,Atlas Resources,3,36
+150,Crystal Logistics plc,2,23
+151,Iron Infrastructure,4,33
+152,Apex Energy,9,24
+153,Sterling Technologies,6,14
+154,Sterling Bioscience plc,10,3
+155,Pioneer Services plc,3,4
+156,Silver Motors,9,17
+157,West Energy plc,9,26
+158,Orion Technologies plc,7,21
+159,Cobalt Retail,6,5
+160,Vector Brands,4,23
+161,Emerald Electric plc,6,39
+162,Falcon Resources,4,32
+163,Nova Partners,6,19
+164,Liberty Media,2,24
+165,Sterling Group,8,22
+166,Summit Telecom plc,9,15
+167,East Holdings,6,34
+168,Atlas Health plc,7,34
+169,Crystal Telecom,3,14
+170,Cobalt Resources,9,16
+171,Silver Partners,7,17
+172,Global Networks,3,30
+173,Crystal Infrastructure,1,19
+174,Orion Brands,8,29
+175,Nova Brands plc,6,19
+176,Blue Devices plc,5,12
+177,Crystal Services plc,1,13
+178,Vertex Devices plc,8,12
+179,Sterling Services plc,1,6
+180,East Logistics,10,38
+181,Quantum Software,2,21
+182,Alpha Holdings,6,1
+183,Nimbus Media,4,12
+184,Harbor Media plc,5,38
+185,Global Air,4,26
+186,Liberty Pharma,8,37
+187,Liberty Materials,6,34
+188,Emerald Energy,9,34
+189,East Mining plc,1,30
+190,Alpha Retail plc,5,35
+191,Liberty Holdings,8,8
+192,Blue Mining plc,6,19
+193,West Pharma,4,6
+194,Falcon Materials plc,10,13
+195,Quantum Finance,9,28
+196,Iron Infrastructure plc,2,26
+197,Vector Finance,2,2
+198,Atlas Holdings plc,10,28
+199,Apex Electric,6,6
+200,Golden Systems,7,33
+201,Atlas Health,1,8
+202,North Retail,2,33
+203,Quantum Services plc,3,10
+204,Blue Materials plc,3,19
+205,East Telecom plc,10,34
+206,Global Holdings,3,18
+207,Crescent Pharma,4,39
+208,Silver Logistics,7,18
+209,North Partners,6,35
+210,Golden Bioscience,5,31
+211,Orion Energy plc,2,6
+212,Sterling Logistics plc,3,26
+213,Harbor Technologies,3,35
+214,Golden Finance,8,5
+215,Quantum Mining plc,4,23
+216,Quantum Health,2,35
+217,Alpha Energy,7,10
+218,Prime Pharma,5,7
+219,Summit Telecom,9,32
+220,Falcon Brands,10,17
+221,Crystal Trust plc,9,20
+222,Future Energy,8,4
+223,Liberty Pharma plc,5,2
+224,Vector Group plc,6,34
+225,Vertex Electric plc,2,8
+226,Pioneer Electric,1,29
+227,Silver Motors plc,3,39
+228,Sterling Devices,2,35
+229,Emerald Networks plc,3,27
+230,Atlas Foods plc,8,14
+231,Vertex Mining,6,27
+232,Apex Networks plc,10,6
+233,Harbor Brands,10,39
+234,Vector Bioscience,5,1
+235,Atlas Networks,2,38
+236,Summit Retail,5,2
+237,Alpha Health plc,8,21
+238,Dynamic Bioscience plc,4,15
+239,Emerald Mining plc,8,39
+240,Crystal Electric,9,7
+241,Vector Health,1,12
+242,Summit Infrastructure,1,11
+243,Vector Telecom,3,17
+244,Cobalt Materials plc,5,12
+245,West Capital,10,18
+246,Crystal Media,10,1
+247,West Foods,3,16
+248,Emerald Materials,8,35
+249,Harbor Retail,1,17
+250,Vector Energy,8,25
+251,Orion Infrastructure plc,8,25
+252,Apex Retail plc,3,39
+253,Iron Health plc,9,32
+254,Dynamic Media,8,6
+255,East Industries,3,16
+256,Falcon Finance plc,4,30
+257,Orion Partners,7,29
+258,West Group,6,28
+259,Prime Systems,7,21
+260,Vertex Foods plc,5,25
+261,Summit Partners,6,31
+262,Future Resources plc,10,24
+263,Nova Brands,6,13
+264,Harbor Systems,7,14
+265,Sterling Partners,10,5
+266,North Telecom,5,32
+267,Emerald Bioscience,7,10
+268,Dynamic Motors,1,28
+269,Pioneer Group,1,19
+270,Falcon Mining,4,5
+271,Golden Mining,6,1
+272,Crystal Pharma plc,3,36
+273,North Services,4,35
+274,Harbor Foods,2,1
+275,Blue Infrastructure,8,10
+276,Silver Mining,6,20
+277,Nova Capital plc,3,3
+278,Golden Resources plc,3,15
+279,Apex Partners,6,32
+280,Summit Health,10,18
+281,Vector Holdings,3,22
+282,Crystal Energy,8,19
+283,Prime Energy,4,36
+284,Global Software,4,19
+285,Golden Group,3,38
+286,Emerald Bioscience plc,7,21
+287,Silver Resources,2,22
+288,Nova Technologies,5,15
+289,Vector Electric plc,9,39
+290,East Health,4,17
+291,North Materials,10,19
+292,Summit Trust,5,3
+293,Nimbus Energy,1,15
+294,Prime Brands plc,5,34
+295,Apex Air,4,30
+296,Sterling Logistics,3,20
+297,Liberty Infrastructure,10,11
+298,Sterling Foods,4,8
+299,Apex Resources,3,38
+300,Alpha Bioscience,5,37
+301,Nimbus Industries,7,3
+302,West Bioscience plc,3,22
+303,East Materials,5,19
+304,Apex Brands,2,31
+305,Vector Retail,10,32
+306,Orion Pharma,7,32
+307,Golden Software,1,15
+308,Golden Air,9,5
+309,Dynamic Trust plc,5,5
+310,Golden Infrastructure plc,5,34
+311,Emerald Software,3,34
+312,Quantum Resources,6,33
+313,East Resources,5,28
+314,Nimbus Pharma plc,10,26
+315,Vertex Motors,2,20
+316,Alpha Trust plc,10,16
+317,Summit Capital,2,22
+318,Silver Bioscience,2,19
+319,Iron Energy,10,27
+320,Golden Brands,6,18

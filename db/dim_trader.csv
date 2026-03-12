@@ -1,0 +1,61 @@
+trader_key,trader_code,trader_name,trading_desk
+1,TRDR_001,Trader 001,Delta One
+2,TRDR_002,Trader 002,Stat Arb
+3,TRDR_003,Trader 003,Long Only
+4,TRDR_004,Trader 004,Event Driven
+5,TRDR_005,Trader 005,Stat Arb
+6,TRDR_006,Trader 006,Execution
+7,TRDR_007,Trader 007,Stat Arb
+8,TRDR_008,Trader 008,Long Only
+9,TRDR_009,Trader 009,Stat Arb
+10,TRDR_010,Trader 010,Execution
+11,TRDR_011,Trader 011,Long Only
+12,TRDR_012,Trader 012,Global Macro
+13,TRDR_013,Trader 013,Execution
+14,TRDR_014,Trader 014,Event Driven
+15,TRDR_015,Trader 015,Stat Arb
+16,TRDR_016,Trader 016,Global Macro
+17,TRDR_017,Trader 017,Global Macro
+18,TRDR_018,Trader 018,Execution
+19,TRDR_019,Trader 019,Delta One
+20,TRDR_020,Trader 020,Delta One
+21,TRDR_021,Trader 021,Execution
+22,TRDR_022,Trader 022,Stat Arb
+23,TRDR_023,Trader 023,Global Macro
+24,TRDR_024,Trader 024,Execution
+25,TRDR_025,Trader 025,Delta One
+26,TRDR_026,Trader 026,Delta One
+27,TRDR_027,Trader 027,Global Macro
+28,TRDR_028,Trader 028,Event Driven
+29,TRDR_029,Trader 029,Event Driven
+30,TRDR_030,Trader 030,Long Only
+31,TRDR_031,Trader 031,Stat Arb
+32,TRDR_032,Trader 032,Global Macro
+33,TRDR_033,Trader 033,Long Only
+34,TRDR_034,Trader 034,Delta One
+35,TRDR_035,Trader 035,Execution
+36,TRDR_036,Trader 036,Execution
+37,TRDR_037,Trader 037,Event Driven
+38,TRDR_038,Trader 038,Long Only
+39,TRDR_039,Trader 039,Long Only
+40,TRDR_040,Trader 040,Long Only
+41,TRDR_041,Trader 041,Long Only
+42,TRDR_042,Trader 042,Stat Arb
+43,TRDR_043,Trader 043,Delta One
+44,TRDR_044,Trader 044,Event Driven
+45,TRDR_045,Trader 045,Execution
+46,TRDR_046,Trader 046,Long Only
+47,TRDR_047,Trader 047,Global Macro
+48,TRDR_048,Trader 048,Execution
+49,TRDR_049,Trader 049,Global Macro
+50,TRDR_050,Trader 050,Stat Arb
+51,TRDR_051,Trader 051,Global Macro
+52,TRDR_052,Trader 052,Global Macro
+53,TRDR_053,Trader 053,Long Only
+54,TRDR_054,Trader 054,Stat Arb
+55,TRDR_055,Trader 055,Global Macro
+56,TRDR_056,Trader 056,Global Macro
+57,TRDR_057,Trader 057,Event Driven
+58,TRDR_058,Trader 058,Delta One
+59,TRDR_059,Trader 059,Stat Arb
+60,TRDR_060,Trader 060,Long Only

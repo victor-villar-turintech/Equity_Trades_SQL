@@ -1,0 +1,12 @@
+exchange_key,mic_code,exchange_name,country_key
+1,XNYS,New York Stock Exchange,1
+2,XNAS,NASDAQ,1
+3,XLON,London Stock Exchange,2
+4,XETR,Xetra,3
+5,XPAR,Euronext Paris,4
+6,XTKS,Tokyo Stock Exchange,5
+7,XTSE,Toronto Stock Exchange,6
+8,XSWX,SIX Swiss Exchange,7
+9,XAMS,Euronext Amsterdam,8
+10,XSTO,Nasdaq Stockholm,9
+11,XASX,ASX,10

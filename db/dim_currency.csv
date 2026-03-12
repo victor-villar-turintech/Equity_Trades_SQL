@@ -1,0 +1,9 @@
+currency_key,currency_code,currency_name
+1,USD,US Dollar
+2,GBP,Pound Sterling
+3,EUR,Euro
+4,JPY,Japanese Yen
+5,CAD,Canadian Dollar
+6,CHF,Swiss Franc
+7,SEK,Swedish Krona
+8,AUD,Australian Dollar
