@@ -6,18 +6,15 @@
 -- Q01: Repeat joins and select many columns instead of projecting narrowly
 SELECT
     t.trade_id,
-    t.trade_ts,
-    t.side,
-    t.trade_status,
+    t.trade_timestamp,
+    t.buy_sell_flag,
     t.order_type,
-    t.settlement_type,
     t.quantity,
-    t.price,
-    t.gross_amount,
+    t.price_local,
+    t.gross_amount_local,
     s.ticker,
-    s.isin,
     s.lot_size,
-    s.instrument_type,
+    s.share_class,
     i.issuer_name,
     ind.industry_name,
     sec.sector_name,
@@ -37,12 +34,12 @@ JOIN dim_currency ccy ON t.currency_key = ccy.currency_key
 JOIN dim_broker br ON t.broker_key = br.broker_key
 JOIN dim_trader tr ON t.trader_key = tr.trader_key
 JOIN dim_account a ON t.account_key = a.account_key
-WHERE t.price > 0;
+WHERE t.price_local > 0;
 
 -- Q02: Function on timestamp column in filter prevents efficient pruning
 SELECT COUNT(*) AS trade_count
 FROM fact_equity_trade t
-WHERE CAST(t.trade_ts AS DATE) BETWEEN DATE '2025-01-01' AND DATE '2025-12-31';
+WHERE CAST(t.trade_timestamp AS DATE) BETWEEN DATE '2025-01-01' AND DATE '2025-12-31';
 
 -- Q03: Leading wildcard LIKE on ticker description style search
 SELECT COUNT(*) AS matched_rows
@@ -70,11 +67,11 @@ JOIN dim_currency ccy ON t.currency_key = ccy.currency_key;
 SELECT
     a.account_name,
     t.trade_id,
-    t.gross_amount
+    t.gross_amount_local
 FROM fact_equity_trade t
 JOIN dim_account a ON t.account_key = a.account_key
-WHERE t.gross_amount > (
-    SELECT AVG(t2.gross_amount)
+WHERE t.gross_amount_local > (
+    SELECT AVG(t2.gross_amount_local)
     FROM fact_equity_trade t2
     WHERE t2.account_key = t.account_key
 );
@@ -84,18 +81,18 @@ SELECT COUNT(*) AS pair_count
 FROM fact_equity_trade t1
 JOIN fact_equity_trade t2
   ON t1.stock_key = t2.stock_key
- AND CAST(t1.trade_ts AS DATE) = CAST(t2.trade_ts AS DATE)
+ AND CAST(t1.trade_timestamp AS DATE) = CAST(t2.trade_timestamp AS DATE)
  AND t1.trade_id < t2.trade_id;
 
 -- Q07: ORDER BY on computed expression across full set
 SELECT
     t.trade_id,
     t.quantity,
-    t.price,
-    (t.quantity * t.price) / NULLIF(s.lot_size, 0) AS notional_per_lot
+    t.price_local,
+    (t.quantity * t.price_local) / NULLIF(s.lot_size, 0) AS notional_per_lot
 FROM fact_equity_trade t
 JOIN dim_stock s ON t.stock_key = s.stock_key
-ORDER BY ((t.quantity * t.price) / NULLIF(s.lot_size, 0)) DESC
+ORDER BY ((t.quantity * t.price_local) / NULLIF(s.lot_size, 0)) DESC
 LIMIT 100;
 
 -- Q08: IN subquery instead of join / semijoin rewrite
@@ -104,18 +101,18 @@ FROM fact_equity_trade t
 WHERE t.stock_key IN (
     SELECT s.stock_key
     FROM dim_stock s
-    JOIN dim_exchange ex ON s.primary_exchange_key = ex.exchange_key
+    JOIN dim_exchange ex ON s.exchange_key = ex.exchange_key
     WHERE ex.country_key IN (
-        SELECT c.country_key FROM dim_country c WHERE c.region_name = 'North America'
+        SELECT c.country_key FROM dim_country c WHERE c.country_name IN ('United States', 'Canada')
     )
 )
-AND t.gross_amount > 100000;
+AND t.gross_amount_local > 100000;
 
 -- Q09: Multiple redundant joins to reach sector even though industry already points to sector
 SELECT
     sec.sector_name,
     COUNT(*) AS trade_count,
-    SUM(t.gross_amount) AS total_gross
+    SUM(t.gross_amount_local) AS total_gross
 FROM fact_equity_trade t
 JOIN dim_industry ind1 ON t.industry_key = ind1.industry_key
 JOIN dim_sector sec ON ind1.sector_key = sec.sector_key
@@ -139,10 +136,10 @@ FROM (
 -- Q11: CASE-heavy aggregation with repeated expressions
 SELECT
     s.ticker,
-    SUM(CASE WHEN t.side = 'BUY' THEN t.quantity * t.price ELSE 0 END) AS buy_notional,
-    SUM(CASE WHEN t.side = 'SELL' THEN t.quantity * t.price ELSE 0 END) AS sell_notional,
-    SUM(CASE WHEN t.side = 'BUY' AND t.trade_status = 'EXECUTED' THEN t.quantity * t.price ELSE 0 END) AS buy_exec_notional,
-    SUM(CASE WHEN t.side = 'SELL' AND t.trade_status = 'EXECUTED' THEN t.quantity * t.price ELSE 0 END) AS sell_exec_notional
+    SUM(CASE WHEN t.buy_sell_flag = 'B' THEN t.quantity * t.price_local ELSE 0 END) AS buy_notional,
+    SUM(CASE WHEN t.buy_sell_flag = 'S' THEN t.quantity * t.price_local ELSE 0 END) AS sell_notional,
+    SUM(CASE WHEN t.buy_sell_flag = 'B'  THEN t.quantity * t.price_local ELSE 0 END) AS buy_exec_notional,
+    SUM(CASE WHEN t.buy_sell_flag = 'S'  THEN t.quantity * t.price_local ELSE 0 END) AS sell_exec_notional
 FROM fact_equity_trade t
 JOIN dim_stock s ON t.stock_key = s.stock_key
 GROUP BY s.ticker
@@ -154,7 +151,7 @@ SELECT
     tr.trader_name,
     br.broker_name,
     COUNT(*) AS trade_count,
-    SUM(t.gross_amount) AS total_gross
+    SUM(t.gross_amount_local) AS total_gross
 FROM fact_equity_trade t
 JOIN dim_account a ON t.account_key = a.account_key
 JOIN dim_trader tr ON t.trader_key = tr.trader_key
@@ -168,15 +165,15 @@ ORDER BY total_gross DESC;
 -- Q13: Union instead of simpler grouped predicate
 SELECT COUNT(*) AS cnt
 FROM (
-    SELECT trade_id FROM fact_equity_trade WHERE side = 'BUY'
+    SELECT trade_id FROM fact_equity_trade WHERE buy_sell_flag = 'B'
     UNION
-    SELECT trade_id FROM fact_equity_trade WHERE trade_status = 'EXECUTED'
+    SELECT trade_id FROM fact_equity_trade WHERE NULL = 'EXECUTED'
 ) q;
 
 -- Q14: Re-aggregate already aggregated dataset with unnecessary sort
 SELECT sector_name, SUM(total_gross) AS grand_total
 FROM (
-    SELECT sec.sector_name, ex.exchange_name, SUM(t.gross_amount) AS total_gross
+    SELECT sec.sector_name, ex.exchange_name, SUM(t.gross_amount_local) AS total_gross
     FROM fact_equity_trade t
     JOIN dim_industry ind ON t.industry_key = ind.industry_key
     JOIN dim_sector sec ON ind.sector_key = sec.sector_key
@@ -190,10 +187,10 @@ ORDER BY grand_total DESC;
 -- Q15: Window over full fact table for running totals without partition reduction
 SELECT
     t.trade_id,
-    t.trade_ts,
+    t.trade_timestamp,
     s.ticker,
-    t.gross_amount,
-    SUM(t.gross_amount) OVER (PARTITION BY s.ticker ORDER BY t.trade_ts, t.trade_id) AS running_notional
+    t.gross_amount_local,
+    SUM(t.gross_amount_local) OVER (PARTITION BY s.ticker ORDER BY t.trade_timestamp, t.trade_id) AS running_notional
 FROM fact_equity_trade t
 JOIN dim_stock s ON t.stock_key = s.stock_key;
 
@@ -203,18 +200,18 @@ SELECT
     (SELECT s.ticker FROM dim_stock s WHERE s.stock_key = t.stock_key) AS ticker,
     (SELECT a.account_name FROM dim_account a WHERE a.account_key = t.account_key) AS account_name,
     (SELECT br.broker_name FROM dim_broker br WHERE br.broker_key = t.broker_key) AS broker_name,
-    t.gross_amount
+    t.gross_amount_local
 FROM fact_equity_trade t;
 
 -- Q17: HAVING used for non-aggregated filter pattern
 SELECT
     ex.exchange_name,
     COUNT(*) AS trade_count,
-    AVG(t.price) AS avg_price
+    AVG(t.price_local) AS avg_price
 FROM fact_equity_trade t
 JOIN dim_exchange ex ON t.exchange_key = ex.exchange_key
 GROUP BY ex.exchange_name
-HAVING AVG(t.price) > 50 OR COUNT(*) > 500;
+HAVING AVG(t.price_local) > 50 OR COUNT(*) > 500;
 
 -- Q18: Cross-date comparison via self-join and extracted dates
 SELECT COUNT(*) AS matched_pairs
@@ -222,22 +219,20 @@ FROM fact_equity_trade t1
 JOIN fact_equity_trade t2
   ON t1.account_key = t2.account_key
  AND t1.stock_key = t2.stock_key
- AND CAST(t1.trade_ts AS DATE) <> CAST(t2.trade_ts AS DATE);
+ AND CAST(t1.trade_timestamp AS DATE) <> CAST(t2.trade_timestamp AS DATE);
 
 -- Q19: Wide CTE materialization style pattern
 WITH enriched AS (
     SELECT
         t.trade_id,
-        t.trade_ts,
-        t.side,
-        t.trade_status,
+        t.trade_timestamp,
+        t.buy_sell_flag,
         t.order_type,
-        t.settlement_type,
         t.quantity,
-        t.price,
-        t.gross_amount,
+        t.price_local,
+        t.gross_amount_local,
         s.ticker,
-        s.instrument_type,
+        s.share_class,
         i.issuer_name,
         ind.industry_name,
         sec.sector_name,
@@ -257,7 +252,7 @@ WITH enriched AS (
     JOIN dim_trader tr ON t.trader_key = tr.trader_key
     JOIN dim_broker br ON t.broker_key = br.broker_key
 )
-SELECT sector_name, currency_code, COUNT(*) AS trade_count, SUM(gross_amount) AS total_gross
+SELECT sector_name, currency_code, COUNT(*) AS trade_count, SUM(gross_amount_local) AS total_gross
 FROM enriched
 GROUP BY sector_name, currency_code
 ORDER BY total_gross DESC;
@@ -265,23 +260,23 @@ ORDER BY total_gross DESC;
 -- Q20: Non-sargable arithmetic in filter
 SELECT COUNT(*) AS expensive_trade_count
 FROM fact_equity_trade t
-WHERE (t.quantity * t.price) / 1.0 > 250000;
+WHERE (t.quantity * t.price_local) / 1.0 > 250000;
 
 -- Q21: Repeated date extraction in grouping and ordering
 SELECT
-    CAST(t.trade_ts AS DATE) AS trade_date,
+    CAST(t.trade_timestamp AS DATE) AS trade_date,
     COUNT(*) AS trade_count,
-    SUM(t.gross_amount) AS total_gross
+    SUM(t.gross_amount_local) AS total_gross
 FROM fact_equity_trade t
-GROUP BY CAST(t.trade_ts AS DATE)
-ORDER BY CAST(t.trade_ts AS DATE);
+GROUP BY CAST(t.trade_timestamp AS DATE)
+ORDER BY CAST(t.trade_timestamp AS DATE);
 
 -- Q22: Join dims by text after resolving keys first
 SELECT COUNT(*) AS cnt
 FROM fact_equity_trade t
 JOIN dim_stock s ON t.stock_key = s.stock_key
 JOIN dim_exchange ex1 ON t.exchange_key = ex1.exchange_key
-JOIN dim_exchange ex2 ON s.primary_exchange_key = ex2.exchange_key
+JOIN dim_exchange ex2 ON s.exchange_key = ex2.exchange_key
 WHERE ex1.exchange_name = ex2.exchange_name;
 
 -- Q23: Excessively broad ranking query
@@ -291,8 +286,8 @@ FROM (
         t.trade_id,
         a.account_name,
         s.ticker,
-        t.gross_amount,
-        ROW_NUMBER() OVER (PARTITION BY a.account_name ORDER BY t.gross_amount DESC, t.trade_id) AS rn
+        t.gross_amount_local,
+        ROW_NUMBER() OVER (PARTITION BY a.account_name ORDER BY t.gross_amount_local DESC, t.trade_id) AS rn
     FROM fact_equity_trade t
     JOIN dim_account a ON t.account_key = a.account_key
     JOIN dim_stock s ON t.stock_key = s.stock_key
@@ -302,15 +297,15 @@ WHERE rn <= 10;
 -- Q24: Two-pass notional comparison using self-subquery
 SELECT COUNT(*) AS above_global_avg_count
 FROM fact_equity_trade t
-WHERE t.gross_amount > (
-    SELECT AVG(gross_amount) FROM fact_equity_trade
+WHERE t.gross_amount_local > (
+    SELECT AVG(gross_amount_local) FROM fact_equity_trade
 );
 
 -- Q25: String concatenation in grouping key
 SELECT
     ex.exchange_name || ' - ' || c.country_name AS venue_label,
     COUNT(*) AS trade_count,
-    SUM(t.gross_amount) AS total_gross
+    SUM(t.gross_amount_local) AS total_gross
 FROM fact_equity_trade t
 JOIN dim_exchange ex ON t.exchange_key = ex.exchange_key
 JOIN dim_country c ON ex.country_key = c.country_key
@@ -321,28 +316,28 @@ ORDER BY total_gross DESC;
 SELECT COUNT(*) AS cnt
 FROM fact_equity_trade t
 JOIN dim_currency ccy ON t.currency_key = ccy.currency_key
-WHERE (ccy.currency_code = 'USD' AND t.gross_amount > 10000)
-   OR (ccy.currency_code = 'GBP' AND t.gross_amount > 9000)
-   OR (ccy.currency_code = 'EUR' AND t.gross_amount > 9500)
-   OR (ccy.currency_code = 'CAD' AND t.gross_amount > 8000)
-   OR (ccy.currency_code = 'JPY' AND t.gross_amount > 1200000);
+WHERE (ccy.currency_code = 'USD' AND t.gross_amount_local > 10000)
+   OR (ccy.currency_code = 'GBP' AND t.gross_amount_local > 9000)
+   OR (ccy.currency_code = 'EUR' AND t.gross_amount_local > 9500)
+   OR (ccy.currency_code = 'CAD' AND t.gross_amount_local > 8000)
+   OR (ccy.currency_code = 'JPY' AND t.gross_amount_local > 1200000);
 
 -- Q27: Full outer style logic via union all where simpler logic may exist
 SELECT COUNT(*) AS cnt
 FROM (
     SELECT stock_key, account_key FROM fact_equity_trade
     UNION ALL
-    SELECT stock_key, account_key FROM fact_equity_trade WHERE trade_status = 'EXECUTED'
+    SELECT stock_key, account_key FROM fact_equity_trade WHERE NULL = 'EXECUTED'
 ) q;
 
 -- Q28: Repeated enrichment for simple top brokers output
 SELECT
     br.broker_name,
     COUNT(*) AS trade_count,
-    SUM(t.gross_amount) AS total_gross,
-    AVG(t.price) AS avg_price,
-    MIN(t.trade_ts) AS first_trade_ts,
-    MAX(t.trade_ts) AS last_trade_ts
+    SUM(t.gross_amount_local) AS total_gross,
+    AVG(t.price_local) AS avg_price,
+    MIN(t.trade_timestamp) AS first_trade_ts,
+    MAX(t.trade_timestamp) AS last_trade_ts
 FROM fact_equity_trade t
 JOIN dim_broker br ON t.broker_key = br.broker_key
 JOIN dim_stock s ON t.stock_key = s.stock_key
@@ -364,19 +359,17 @@ FROM (
 
 -- Q30: Heavy mart-like query with broad joins and many group keys
 SELECT
-    CAST(t.trade_ts AS DATE) AS trade_date,
+    CAST(t.trade_timestamp AS DATE) AS trade_date,
     a.account_type,
-    br.broker_tier,
-    tr.desk_name,
+    tr.trading_desk,
     sec.sector_name,
     ex.exchange_name,
     ccy.currency_code,
-    t.side,
-    t.trade_status,
+    t.buy_sell_flag,
     COUNT(*) AS trade_count,
     SUM(t.quantity) AS total_qty,
-    SUM(t.gross_amount) AS total_gross,
-    AVG(t.price) AS avg_price
+    SUM(t.gross_amount_local) AS total_gross,
+    AVG(t.price_local) AS avg_price
 FROM fact_equity_trade t
 JOIN dim_account a ON t.account_key = a.account_key
 JOIN dim_broker br ON t.broker_key = br.broker_key
@@ -386,13 +379,12 @@ JOIN dim_sector sec ON ind.sector_key = sec.sector_key
 JOIN dim_exchange ex ON t.exchange_key = ex.exchange_key
 JOIN dim_currency ccy ON t.currency_key = ccy.currency_key
 GROUP BY
-    CAST(t.trade_ts AS DATE),
+    CAST(t.trade_timestamp AS DATE),
     a.account_type,
-    br.broker_tier,
-    tr.desk_name,
+    tr.trading_desk,
     sec.sector_name,
     ex.exchange_name,
     ccy.currency_code,
-    t.side,
-    t.trade_status
+    t.buy_sell_flag,
+    NULL
 ORDER BY trade_date, total_gross DESC;

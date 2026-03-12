@@ -249,7 +249,7 @@ def main():
     summary["slowest_query_avg_ms"] = max(all_avg) if all_avg else 0.0
     summary["fastest_query_avg_ms"] = min(all_avg) if all_avg else 0.0
 
-    json_summary.write_text(json.dumps(summary, indent=2), encoding='utf-8')
+    json_summary.write_text(json.dumps(summary, indent=2, default=str), encoding='utf-8')
     logger.info("=" * 100)
     logger.info("Completed benchmark run | query_count=%d | run_total_ms=%.3f | avg_of_avg_ms=%.3f", len(blocks), total_ms, summary["avg_of_avg_ms"])
     logger.info("JSON summary written to %s", json_summary)
