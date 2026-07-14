@@ -13,3 +13,4 @@ venv/
 *.duckdb
 *.db
 .mcp_api_key
+/Victor_Runner
