@@ -12,3 +12,4 @@ venv/
 *.json
 *.duckdb
 *.db
+.mcp_api_key

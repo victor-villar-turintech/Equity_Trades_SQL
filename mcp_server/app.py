@@ -10,6 +10,7 @@ from typing import Any, Sequence
 
 import psycopg
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 from psycopg import sql
 from psycopg.rows import dict_row
 from starlette.applications import Starlette
@@ -20,6 +21,11 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 MCP_API_KEY = os.getenv("MCP_API_KEY", "").strip()
+
+PUBLIC_MCP_HOST = os.getenv(
+    "PUBLIC_MCP_HOST",
+    "equity-trades-mcp.onrender.com",
+).strip()
 
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL environment variable is required.")
@@ -56,6 +62,20 @@ mcp = FastMCP(
     stateless_http=True,
     json_response=True,
     streamable_http_path="/",
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[
+            PUBLIC_MCP_HOST,
+            f"{PUBLIC_MCP_HOST}:*",
+            "localhost:*",
+            "127.0.0.1:*",
+        ],
+        allowed_origins=[
+            f"https://{PUBLIC_MCP_HOST}",
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+        ],
+    ),
 )
 
 
@@ -488,7 +508,7 @@ async def homepage(_: Any) -> JSONResponse:
             "service": "Equity Trades SQL MCP",
             "status": "running",
             "transport": "streamable-http",
-            "mcp_endpoint": "/mcp",
+            "mcp_endpoint": "/mcp/",
             "authentication": "Bearer token required",
         }
     )
